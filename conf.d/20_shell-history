@@ -1,0 +1,32 @@
+#!/bin/bash
+# Shell history tweaks
+#
+# Copyright (C) 2013, 2014 LoVullo Associates, Inc.
+#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# These are the Debian defaults.
+##
+
+
+# do not write commands that begin with a space to the history and do not write
+# command lines identical to the previous
+export HISTCONTROL=ignoreboth
+
+# a modest history so that developers can look up commands that they may have
+# performed recently but fogotten
+export HISTSIZE=5000
+
+# append to the history file, don't overwrite it
+shopt -s histappend

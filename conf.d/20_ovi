@@ -1,0 +1,7 @@
+#!/bin/bash
+# Set `vi' input option for vi-like keybindings
+
+# must be explicitly requeted
+if enabled; then
+  set -o vi
+fi
