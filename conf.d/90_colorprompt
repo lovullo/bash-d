@@ -18,10 +18,10 @@
 ##
 
 # default hookable values
-PS1_PRE=
-PS1_BODY='\[\033[00;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]'
-PS1_PRE_END=
-PS1_END='$ '
+declare ps1_pre=
+declare ps1_body='\[\033[00;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]'
+declare ps1_pre_end=
+declare ps1_end='$ '
 
 # we update the PS1 in this manner to permit executing commands that output PS1
 # escape sequences
@@ -29,9 +29,9 @@ update-ps1()
 {
   # Debian default color prompt, sans chroot output; do not perform capibility
   # checks, since all used terminals support color
-  PS1="${PS1_PRE}${PS1_BODY}${PS1_PRE_END}${PS1_END}"
+  export PS1="${ps1_pre}${ps1_body}${ps1_pre_end}${ps1_end}"
 }
 
 # scripts may use to recognize that the pluggable PS1 has been loaded
-PS1_PLUGGABLE=1
+declare -r ps1_pluggable=1
 

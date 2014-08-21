@@ -19,3 +19,4 @@
 
 # check that Debian default uses
 [ -z "$PS1" ] && return
+

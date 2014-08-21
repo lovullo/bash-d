@@ -22,3 +22,4 @@ alias la="ls -la"
 alias lh="ls -h"
 alias ll="ls -l"
 alias lah="ls -lah"
+

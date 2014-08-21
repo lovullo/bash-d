@@ -5,3 +5,4 @@
 if enabled; then
   set -o vi
 fi
+
