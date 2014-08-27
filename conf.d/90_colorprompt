@@ -34,4 +34,5 @@ update-ps1()
 
 # scripts may use to recognize that the pluggable PS1 has been loaded
 declare -r ps1_pluggable=1
+update-ps1
 
