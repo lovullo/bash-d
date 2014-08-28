@@ -1,0 +1,31 @@
+#!/bin/bash
+# Source system bash completion
+#
+# Copyright (C) 2014 Mike Gerwitz
+#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# Note that /etc/bash_completion may already be loaded depending on your
+# system or user configuration.
+##
+
+# do not load if the configuration is already loaded (this will at least
+# work on Debian systems), or if POSIX mode is enabled
+if [ -n "$BASH_COMPLETION_DIR" ] || shopt -oq posix; then
+  return
+fi
+
+test -f /etc/bash_completion \
+  && source /etc/bash_completion
+
