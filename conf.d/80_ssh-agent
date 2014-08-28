@@ -1,0 +1,75 @@
+#!/bin/bash
+# Set up ssh-agent session
+#
+# Copyright (C) 2014 Mike Gerwitz
+#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+##
+
+which ssh-agent ssh-add &>/dev/null || return
+
+if [ -z "$ssh_agent_info_path" ]; then
+  declare ssh_agent_info_path="$HOME/.ssh/.agent"
+fi
+
+declare ssh_agent_life="${ssh_agent_life:-0}"
+
+
+##
+# Determine if a ssh-agent daemon is both running and accesssible for this
+# session
+#
+# This will source any previous environment, thereby having the side-effect
+# of exposing any available daemon to the session.
+ssh-agent-running()
+{
+  test -f "$ssh_agent_info_path" \
+    && source "$ssh_agent_info_path" \
+    || return
+
+  # an exit value of 2 (see ssh-add(1)) indicates that ssh-add failed to
+  # connect to the agent
+  SSH_ASKPASS= ssh-add </dev/null &>/dev/null
+  test $? -ne 2
+}
+
+
+##
+# Start a new agent daemon, outputting its environment for future sessions
+#
+# ssh-agent by default outputs an echo statement containing the agent
+# process id; this is removed so as not to bother the user with unnecessary
+# details that can be easily discovered (every time the shell starts,
+# nonetheless).
+start-ssh-agent()
+{
+  mkdir -p "$( dirname "$ssh_agent_info_path" )" || return
+
+  { ssh-agent || return; } \
+    | grep -v ^echo \
+    > "$ssh_agent_info_path"
+
+  source "$ssh_agent_info_path"
+}
+
+
+# connect to an existing daemon or start a new one
+if ! ssh-agent-running; then
+  echo starting
+  start-ssh-agent
+fi
+
+unset -v ssh_agent_info_path ssh_agent_life
+unset -f ssh-agent-running
+
