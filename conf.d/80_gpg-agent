@@ -1,0 +1,61 @@
+#!/bin/bash
+# Set up gpg-agent session with TTY pinentry support
+#
+# Copyright (C) 2014 Mike Gerwitz
+#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+##
+
+which gpg-agent &>/dev/null || return
+
+if [ -z "$gpg_agent_info_path" ]; then
+  declare gpg_agent_info_path="$HOME/.gnupg/.agent"
+fi
+
+
+##
+# Determine if a gpg-agent daemon is both running and accessible for this
+# session
+#
+# This will source any previous environment, thereby having the side-effect
+# of exposing any available daemon to the session.
+gpg-agent-running()
+{
+  test -f "$gpg_agent_info_path" \
+    && source "$gpg_agent_info_path" \
+    && gpg-agent &>/dev/null
+}
+
+
+##
+# Start a new agent daemon, outputting its environment for future sessions
+start-gpg-agent()
+{
+  mkdir -p "$( dirname "$gpg_agent_info_path" )" \
+    && gpg-agent --daemon > "$gpg_agent_info_path" \
+    && source "$gpg_agent_info_path"
+}
+
+
+# scripts with TTY support (e.g. pinentry) shall use this terminal
+export GPG_TTY="$(tty)"
+
+# connect to an existing daemon or start a new one
+if ! gpg-agent-running; then
+  start-gpg-agent
+fi
+
+unset -v gpg_agent_info_path
+unset -f gpg-agent-running start-gpg-agent
+
