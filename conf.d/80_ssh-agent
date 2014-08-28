@@ -66,7 +66,6 @@ start-ssh-agent()
 
 # connect to an existing daemon or start a new one
 if ! ssh-agent-running; then
-  echo starting
   start-ssh-agent
 fi
 
