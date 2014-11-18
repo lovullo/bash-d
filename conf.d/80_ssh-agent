@@ -40,7 +40,7 @@ ssh-agent-running()
 
   # an exit value of 2 (see ssh-add(1)) indicates that ssh-add failed to
   # connect to the agent
-  SSH_ASKPASS= ssh-add </dev/null &>/dev/null
+  SSH_ASKPASS= ssh-add -l </dev/null &>/dev/null
   test $? -ne 2
 }
 
