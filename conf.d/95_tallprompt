@@ -21,7 +21,7 @@
 # requested!
 if enabled && [ "$ps1_pluggable" -eq 1 ]; then
   ps1_pre=$'\n'"$PS1_PRE"
-  ps1_end=$'\n'"$PS1_END"
+  ps1_pre_end=$'\n'"$PS1_END"
   update-ps1
 fi
 
