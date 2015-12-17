@@ -29,7 +29,7 @@ update-ps1()
 {
   # Debian default color prompt, sans chroot output; do not perform capibility
   # checks, since all used terminals support color
-  export PS1="${ps1_pre}${ps1_body}${ps1_pre_end}${ps1_end}"
+  PS1="${ps1_pre}${ps1_body}${ps1_pre_end}${ps1_end}"
 }
 
 # scripts may use to recognize that the pluggable PS1 has been loaded
