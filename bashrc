@@ -86,3 +86,5 @@ main()
 
 main "$@"
 
+[ -r ~/.bashrc.local ] && source ~/.bashrc.local
+
